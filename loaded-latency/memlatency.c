@@ -35,7 +35,7 @@
 
 /* lat_initialize can be called from main.c for shared memory */
 /*
- * LAT_CHAIN_PASSES — number of independent random passes through the
+ * LAT_CHAIN_PASSES - number of independent random passes through the
  * buffer concatenated head-to-tail to form the mode-2 pointer chain.
  *
  * Algorithm (make_multipass_chain):
