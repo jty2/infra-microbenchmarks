@@ -217,7 +217,7 @@ int main(int argc, char *argv[]) {
     printf("lat_iterations      (-i) = %zu\n", args.lat_iterations);
     printf("lat_offset          (-o) = %zu\n", args.lat_offset);
     printf("lat_secondary_delay (-e) = %zu\n", args.lat_secondary_delay);
-    printf("lat_randomize       (-r) = %d\n", args.lat_randomize);
+    printf("lat_randomize_mode  (-R) = %zu\n", args.lat_randomize);
     printf("lat_use_hugepages   (-h) = %d (hugepages = %s)\n", args.lat_use_hugepages, hugepage_map(args.lat_use_hugepages));
     printf("lat_shared_memory   (-s) = %d\n", args.lat_shared_memory);
     printf("lat_shared_memory_init_cpu(-u) = %d\n", args.lat_shared_memory_init_cpu);

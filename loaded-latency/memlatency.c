@@ -196,7 +196,7 @@ static void ** make_multipass_chain(void * ptr,
 }
 
 void ** lat_initialize(size_t cacheline_bytes,
-    size_t cacheline_count, int randomize, int clear_cache, size_t cacheline_stride, int use_hugepages) {
+    size_t cacheline_count, size_t randomize, int clear_cache, size_t cacheline_stride, int use_hugepages) {
 
     typedef struct {
         union {
@@ -227,6 +227,7 @@ void ** lat_initialize(size_t cacheline_bytes,
     if (randomize == 2) {
         head = make_multipass_chain(p, cacheline_count, cacheline_bytes);
     } else {
+        // also for randomize == 0
         head = make_pairswap_chain(p, cacheline_bytes, cacheline_count, cacheline_stride, randomize);
     }
 
@@ -284,7 +285,7 @@ void latency_thread (struct lat_thread_info * lat_tinfo) {
     int cpu                                   = lat_tinfo->cpu;
     unsigned long hwcounter_start             = lat_tinfo->hwcounter_start;
     unsigned long hwcounter_stop              = lat_tinfo->hwcounter_stop;
-    int randomize                             = lat_tinfo->randomize;
+    size_t randomize                          = lat_tinfo->randomize;
     int use_hugepages                         = lat_tinfo->use_hugepages;
     void ** mem                               = lat_tinfo->mem;
     size_t lat_offset                         = lat_tinfo->lat_offset;
@@ -315,7 +316,7 @@ void latency_thread (struct lat_thread_info * lat_tinfo) {
     }
     p = run(p, lat_offset / 10);    // advance p to start offset. / 10 because there are 10 deploads per iteration in run()
 
-    printf("CPU%d LATTHREAD%d: cacheline_count = %zu, iterations = %zu, mem = %p, randomize = %d, use_hugepages = %d, hwcounter_start = 0x%zx, lat_offset = %zu, tid = %d\n",
+    printf("CPU%d LATTHREAD%d: cacheline_count = %zu, iterations = %zu, mem = %p, randomize = %zu, use_hugepages = %d, hwcounter_start = 0x%zx, lat_offset = %zu, tid = %d\n",
            cpu, thread_num, cacheline_count, iterations, mem, randomize,
            use_hugepages, hwcounter_start, lat_offset, gettid());
 

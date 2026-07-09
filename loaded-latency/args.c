@@ -110,7 +110,8 @@ static void print_help(void) {
 " -o | --lat-offset            count    number of deploads to advance secondary latency threads\n"
 " -c | --lat-clear-cache                clear caches before latency run\n"
 " -r | --lat-randomize                  randomize ordering of dependent loads (mode 1: pair-swap shuffle)\n"
-" -R | --lat-randomize-mode    mode     select randomization mode by number (1, 2, ...)\n"
+" -R | --lat-randomize-mode    mode     select randomization mode by number (0-2)\n"
+"                                       mode 0 = no randomization\n"
 "                                       mode 1 = pair-swap shuffle (default for -r)\n"
 "                                       mode 2 = 8-way interleaved Hamiltonian chains\n"
 " -h | --lat-use-hugepages     size     hugepage size to use for latency. Use \"-h help\" to show known sizes\n"
@@ -307,8 +308,8 @@ void handle_args(int argc, char ** argv, args_t * pargs) {
                 break;
 
             case 'R':  // --lat-randomize-mode N
-                pargs->lat_randomize = (int) strtol(optarg, NULL, 0);
-                if (pargs->lat_randomize < 0) {
+                pargs->lat_randomize = strtoul(optarg, NULL, 0);
+                if (pargs->lat_randomize > 2) {
                     printf("invalid --lat-randomize-mode value: %s\n", optarg);
                     exit(-1);
                 }
